@@ -13,34 +13,39 @@ import linkedin from '../../static/images/linkedin.png';
 import whatsapp from '../../static/images/whatsapp.png';
 import home from '../../static/images/home.png';
 import bgpub from '../../static/images/bgpub.png';
+import homebmw from '../../static/images/home-bmw-serie-2.png';
+import magazine from '../../static/images/magazine.png';
+import tripslide from '../../static/images/tripslide.png';
+import bgmobilemag from '../../static/images/bgmobilemag.png';
+import bgtripmobile from '../../static/images/bgtripmobile.png';
 
 
-import './home.css';
+import './home.scss';
 class Home extends Component {
     //host = "http://localhost/backend-birawam-slim/index.php/";
     host = "http://web-biramawa.com/backend-birawam-slim/index.php/"
     constructor(){
         super();
 
-
         this.state={
+         statuMenuMobile:0,
+         slideMobile:homebmw,
          redirect: null,
           w:25,
-          idimgslide:0,
+          idimgslide:1,
           iId:0,
           idSlide:0,
-          imgSlide:[{url:"BIRAMAWA3D2.png",text:"BIRAWAMA"},{url:"home-bmw-serie-2.png",text:"BIRAWAMA CAR"},{url:"trip.png",text:"BIRAWAMA VOYAGE"},{url:"mag.png",text:"BIRAWAMA MAGAZINE"}]
+          imgSlide:[{url:"BIRAMAWA3D2.png",text:"BIRAWAMA"},{url:"home-bmw-serie-2.png",text:"BIRAWAMA CAR"},{url:"trip.png",text:"BIRAWAMA TRIP"},{url:"mag.png",text:"BIRAWAMA MAGAZINE"}],
+          bgDesk:homebmw
 
         }
-
-
 
         let intervaId=setInterval(()=>{
           try{
           this.changeSlideMobile();
-          this.bare();
-          this.backImgLevel(this.state.idimgslide);
-          document.getElementById("menu").setAttribute("src",'./static/images/'+this.state.imgSlide[this.state.idimgslide]);
+          this.slide()
+          //this.backImgLevel(this.state.idimgslide);
+          //document.getElementById("menu").setAttribute("src",'../../static/images/'+this.state.imgSlide[this.state.idimgslide]);
 
           }catch{}
         },5000);
@@ -127,63 +132,51 @@ class Home extends Component {
 
       changeSlideMobile (){
           console.log(this.state.idSlide)
+          document.getElementById("menu").setAttribute("src",'../../static/images/'+this.state.imgSlide[this.state.idimgslide]);
           if(this.state.idSlide==0){
-            this.setState({idSlide:1});
             (document.querySelector("#titrePage")).innerHTML="BIRAMAWA CAR";
             (document.querySelector("#chargebar1")).style.backgroundColor="#FFFF6B";
             (document.querySelector("#chargebar2")).style.backgroundColor="";
             (document.querySelector("#chargebar3")).style.backgroundColor="";
+            this.setState({idSlide:1,slideMobile:homebmw});
+
 
           }
           else if(this.state.idSlide==1){
-            this.setState({idSlide:2});
             (document.querySelector("#titrePage")).innerHTML="BIRAMAWA TRIP";
             (document.querySelector("#chargebar1")).style.backgroundColor="#FFFF6B";
             (document.querySelector("#chargebar2")).style.backgroundColor="#FFFF6B";
             (document.querySelector("#chargebar3")).style.backgroundColor="";
+            this.setState({idSlide:2,slideMobile:bgmobilemag});
           }
           else if(this.state.idSlide==2){
-            this.setState({idSlide:0});
             (document.querySelector("#titrePage")).innerHTML="BIRAMAWA MAGAZINE";
             (document.querySelector("#chargebar1")).style.backgroundColor="#FFFF6B";
             (document.querySelector("#chargebar2")).style.backgroundColor="#FFFF6B";
             (document.querySelector("#chargebar3")).style.backgroundColor="#FFFF6B";
-
+            this.setState({idSlide:0,slideMobile:bgtripmobile});
           }
       }
+
       slide(){
        // setTimeout(()=>{
        // console.log(this.state.imgSlide.length);
-        let nv=this.state.idimgslide===3?0:this.state.idimgslide+1;
-          this.setState({idimgslide:nv});
+       let id=this.state.idimgslide;
+        if(id==0){
+          this.setState({bgDesk:homebmw});
+          this.setState({idimgslide:1})
+          (document.getElementById("menu")).style.backgroundImage="url("+ "../../static/images/home-bmw-serie-2.png" +")";
 
-
-         if(this.state.idimgslide<this.state.imgSlide.length){
-            //this.setState({idimgslide:this.state.idimgslide+1});
-            if(this.state.idimgslide==0){
-              (document.getElementById("menu")).classList.add("menuCar");
-              (document.getElementById("menu")).classList.remove("menutrip");
-              (document.getElementById("menu")).classList.remove("menutrip");
-            }
-            if(this.state.idimgslide==1){
-              (document.getElementById("menu")).classList.remove("menuCar");
-              (document.getElementById("menu")).classList.add("menutrip");
-              (document.getElementById("menu")).classList.remove("menutrip");
-            }
-            if(this.state.idimgslide==2){
-              (document.getElementById("menu")).classList.remove("menuCar");
-              (document.getElementById("menu")).classList.remove("menutrip");
-              (document.getElementById("menu")).classList.add("menutrip");
-            }
-
-          }else{
-            this.setState({idimgslide:0});
-            document.getElementById("menu").style.backgroundImage="url("+"../static/images/"+this.state.imgSlide[this.state.idimgslide].url+")";
-           // this.setState({idimgslide:this.state.idimgslide+1});
-          }
-           // document.getElementById("menu").setAttribute("src",'../static/images/'+this.state.imgSlide[this.state.idimgslide]);
-        //},5000);
-
+        }else if(id==1){
+          this.setState({bgDesk:tripslide});
+          this.setState({idimgslide:2})
+          (document.getElementById("menu")).style.backgroundImage="url("+ "../../static/images/tripslide.png" +")";
+        }
+        else if(id==2){
+          this.setState({bgDesk:magazine});
+          this.setState({idimgslide:0})
+          (document.getElementById("menu")).style.backgroundImage="url("+ "../../static/images/magazine.png" +")";
+        }
       }
       bare(){
 
@@ -194,8 +187,6 @@ class Home extends Component {
             //this.slide();
             let W=this.state.w+25;
             this.setState({w:W});
-            this.slide();
-
         }else{
           this.setState({w:25});
           //this.setState({idimgslide:0});
@@ -205,7 +196,7 @@ class Home extends Component {
 
           let W=this.state.w+25;
           this.setState({w:W});
-          this.slide();
+
           //this.setState({idimgslide:this.state.idimgslide+1});
         }
        // w=10;
@@ -230,6 +221,20 @@ class Home extends Component {
         });
 
       }
+
+      showermenu(){
+        if(this.state.statuMenuMobile==0){
+          document.getElementById("mm").style.display="block";
+          document.getElementById("trianglemm").style.display="block";
+          this.setState({statuMenuMobile:1})
+        }
+        else{
+          document.getElementById("mm").style.display="none";
+          document.getElementById("trianglemm").style.display="none";
+          this.setState({statuMenuMobile:0})
+        }
+      }
+
       backImgLevel(id){
         let element1=document.getElementById("0");
         let element2=document.getElementById("1");
@@ -267,27 +272,27 @@ class Home extends Component {
     }
   }
 
+
     render() {
         return (
-      <div style={{position:"absolute",top:"0px"}} id="menu" className="container menuCar">
+      <div style={{position:"absolute",top:"0px",opacity:"1",backgroundImage:"url("+this.state.bgDesk+")"}} id="menu" className="container menuMagazine" >
         <div  className="row">
           <div  className="col-12 desktop">
-                <div  style={{position:"absolute",top:"0px",width:"100%"}} id="menu1">
+                <div  style={{position:"absolute",top:"0px",width:"100%"}} id="menu1" >
                   <div id="m">
                       <div id="logo">
                         <img src={logo} alt="logo" />
                       </div>
                       <ul id="ul" >
-                        <li className="li"><span><img style={{marginRight:"0.4em"}} src={home} alt="home" />BIRAWAMA</span></li>
-                        <li ><Link to="/car">BIRAWAMA CAR</Link></li>
-                        <li ><Link to="/trip">BIRAWAMA TRIP</Link><img src={sn} alt="facebook" style={{width:"3rem"}} /></li>
-                        <li ><Link to="/magazine">BIRAWAMA MAGAZINE</Link></li>
-
+                        <li id="menuli1" className="li li1" style={{backgroundColor: "rgb(255, 208, 48)"}}><span><img style={{marginRight:"0.4em"}} src={home} alt="home" />BIRAWAMA</span></li>
+                        <li style={{paddingLeft:'1rem'}} id="menuli2" ><Link to="/car">BIRAWAMA CAR</Link></li>
+                        <li style={{paddingLeft:'1rem'}} id="menuli3" ><Link to="/trip">BIRAWAMA TRIP</Link><img src={sn} alt="facebook" style={{width:"3rem"}} /></li>
+                        <li style={{paddingLeft:'1rem'}} id="menuli4" ><Link to="/magazine">BIRAWAMA MAGAZINE</Link></li>
                       </ul>
 
                   </div>
                   <div id="triangle"></div>
-                    <div style={{marginTop:"-10%"}}>
+                    <div style={{marginTop:"-15%"}}>
                       <h3 id="text">{this.state.imgSlide[this.state.idimgslide].text}</h3>
 
                     </div>
@@ -327,95 +332,102 @@ class Home extends Component {
                     </div>
                  </div>
            </div>
-           <div  className="col-12 mobile" id="mobile">
-             <div  className="row" id="menuMobile">
-               <div  className="col-9" style={{paddingTop:'1.5rem'}}>
-                  <img src={logo} alt="facebook" style={{width:"3rem"}} />
-               </div>
-               <div  className="col-3" style={{paddingTop:'1.5rem',paddingTop:"2.5rem"}}>
-                 <i id="menubars" className="fas fa-bars" style={{fontSize:"2.4em"}}></i>
-               </div>
-             </div>
-             <div  className="row" id="bodyMobile">
-               <div  className="col-12">
-                 <div id="mm">
-                   <div  className="col-12">
-                     <span style={{color:'#AD5793'}} id="fermermenumobile">
-                       X
-                     </span>
-                    </div>
-                     <div id="logo">
-                       <img src={logo} alt="logo" />
+           <div  className="col-12 mobile" id="mobile" style={{backgroundImage:"url("+this.state.slideMobile+")"}}>
+              <div  className="row ">
+                 <div  className="col-12 degradeVertival">
+                       <div  className="row">
+                         <div  className="col-12">
+                           <div  className="row">
+                               <div  className="col-10" style={{paddingTop:'1rem'}}>
+                                  <img src={logo} alt="facebook" style={{width:"3rem"}} />
+                               </div>
+                               <div  className="col-2" style={{paddingTop:"1.5rem"}}>
+                                 <i onClick={()=>this.showermenu()} id="menubars" className="fas fa-bars" style={{fontSize:"2.4em"}}></i>
+                               </div>
+                           </div>
+                         </div>
+                       </div>
+                       <div  className="row">
+                         <div  className="col-12">
+                           <div id="mm">
+                             <div  className="col-12">
+                               <span style={{color:'#AD5793'}} id="fermermenumobile">
+                                 X
+                               </span>
+                              </div>
+                               <div id="logo">
+                                 <img src={logo} alt="logo" />
+                               </div>
+                               <ul id="ul" >
+                                 <li className="li"><span><img style={{marginRight:"0.4em"}} src={home} alt="home" />BIRAWAMA</span></li>
+                                 <li ><Link to="/car">BIRAWAMA CAR</Link></li>
+                                 <li ><Link to="/trip">BIRAWAMA TRIP</Link><img src={sn} alt="facebook" style={{width:"3rem"}} /></li>
+                                 <li ><Link to="/magazine">BIRAWAMA MAGAZINE</Link></li>
+
+                               </ul>
+
+                           </div>
+                           <div id="trianglemm" ></div>
+
+                         </div>
+                         <div  className="col-12" style={{marginTop:'2rem'}}>
+                           <div  className="row">
+                             <div  className="col-10">
+
+                             </div>
+                             <div  className="col-2">
+                               <div  className="row">
+                                 <div  className="col-12">
+                                   <div><img src={facebook} alt="facebook" style={{width:"2rem"}}/></div>
+                                 </div>
+                                 <div  className="col-12">
+                                   <div><img src={twiter} alt="twiter" style={{width:"2rem"}}/></div>
+                                 </div>
+                                 <div  className="col-12">
+                                   <div><img src={linkedin} alt="linkedin" style={{width:"2rem"}}/></div>
+                                 </div>
+                                 <div  className="col-12">
+                                  <div><img src={whatsapp} alt="whatsapp" style={{width:"2rem"}}/></div>
+                                 </div>
+                               </div>
+                             </div>
+
+                           </div>
+                         </div>
+                         <div  className="col-12" style={{marginTop:'2rem'}}>
+                           <h3 id='titrePage' style={{paddingLeft:"1rem",font: 'Regular 20px/39px Glacial Indifference',letterSpacing:'0px',color: '#FAFAFA'}}> BIRAMAWA CAR</h3>
+                         </div>
+                         <div  className="col-12" style={{marginTop:'1rem'}}>
+                           <div id='pubmm' className="col-11 pubmm" style={{height:'25rem',width:"90%",marginLeft:'1rem'}}>
+                             <div className="col-12 degrade" id='degrade'>
+                               <span className="titre" id="titrepub">
+                                   Du nouveau chez BIRAMAWA
+                               </span>
+                               <span className="reduction" id="reductionpub">
+                                   -15%
+                               </span>
+                               <span className="voirplus" id="voirpluspub">
+                                 <i style={{color:"black"}} className="fas fa-angle-double-right"></i>  En savoir plus
+                               </span>
+                             </div>
+                           </div>
+                        </div>
+                        <div  className="col-12" style={{position:'fixed',bottom:"0",left:'0',fontSize:"0.5em",minHeight:'0.5rem'}}>
+                          <div  className="row">
+                            <div  className="col-4" id="chargebar1" style={{fontSize:"0.5em",minHeight:'0.5rem',backgroundColor:"#FFFF6B"}}>
+
+                            </div>
+                            <div  className="col-4" id="chargebar2" style={{fontSize:"0.5em",minHeight:'0.5rem'}}>
+
+                            </div>
+                            <div  className="col-4" id="chargebar3" style={{fontSize:"0.5em",minHeight:'0.5rem'}}>
+
+                            </div>
+                          </div>
+                        </div>
+                       </div>
                      </div>
-                     <ul id="ul" >
-                       <li className="li"><span><img style={{marginRight:"0.4em"}} src={home} alt="home" />BIRAWAMA</span></li>
-                       <li ><Link to="/car">BIRAWAMA CAR</Link></li>
-                       <li ><Link to="/trip">BIRAWAMA TRIP</Link><img src={sn} alt="facebook" style={{width:"3rem"}} /></li>
-                       <li ><Link to="/magazine">BIRAWAMA MAGAZINE</Link></li>
-
-                     </ul>
-
-                 </div>
-                 <div id="trianglemm" ></div>
-
-               </div>
-               <div  className="col-12" style={{marginTop:'5rem'}}>
-                 <div  className="row">
-                   <div  className="col-10">
-
-                   </div>
-                   <div  className="col-2">
-                     <div  className="row">
-                       <div  className="col-12">
-                         <div><img src={facebook} alt="facebook" /></div>
-                       </div>
-                       <div  className="col-12">
-                         <div><img src={twiter} alt="twiter" /></div>
-                       </div>
-                       <div  className="col-12">
-                         <div><img src={linkedin} alt="linkedin" /></div>
-                       </div>
-                       <div  className="col-12">
-                        <div><img src={whatsapp} alt="whatsapp" /></div>
-                       </div>
-                     </div>
-                   </div>
-
-                 </div>
-               </div>
-               <div  className="col-12" style={{marginTop:'1rem'}}>
-                 <h3 id='titrePage' style={{paddingLeft:"1rem",font: 'Regular 20px/39px Glacial Indifference',letterSpacing:'0px',color: '#FAFAFA'}}> BIRAMAWA CAR</h3>
-               </div>
-               <div  className="col-12" style={{marginTop:'5rem'}}>
-                 <div id='pubmm' className="col-11 pubmm" style={{height:'25rem',width:"90%",marginLeft:'1rem'}}>
-                   <div className="col-12 degrade" id='degrade'>
-                     <span className="titre" id="titrepub">
-                         Du nouveau chez BIRAMAWA
-                     </span>
-                     <span className="reduction" id="reductionpub">
-                         -15%
-                     </span>
-                     <span className="voirplus" id="voirpluspub">
-                       <i style={{color:"black"}} className="fas fa-angle-double-right"></i>  En savoir plus
-                     </span>
-                   </div>
-                 </div>
               </div>
-              <div  className="col-12" style={{position:'fixed',bottom:"0",left:'0',fontSize:"0.5em",minHeight:'0.5rem'}}>
-                <div  className="row">
-                  <div  className="col-4" id="chargebar1" style={{fontSize:"0.5em",minHeight:'0.5rem',backgroundColor:"#FFFF6B"}}>
-
-                  </div>
-                  <div  className="col-4" id="chargebar2" style={{fontSize:"0.5em",minHeight:'0.5rem'}}>
-
-                  </div>
-                  <div  className="col-4" id="chargebar3" style={{fontSize:"0.5em",minHeight:'0.5rem'}}>
-
-                  </div>
-                </div>
-              </div>
-             </div>
-
           </div>
           </div>
         </div>

@@ -22,7 +22,8 @@ import magazine3 from '../../static/images/magazine3.jpeg';
 import logotrips from '../../static/images/logotrips.png';
 import etendre from '../../static/images/etendre.png';
 import axios from 'axios';
-
+import Book from 'react-page-flip'
+import Flipbook from 'flipbook-vue/src/Flipbook.vue'
 
 class Magazine extends Component {
 
@@ -305,7 +306,7 @@ class Magazine extends Component {
               /* The viewport is less than, or equal to, 700 pixels wide */
               //(document.querySelector(".container-destop")).style.display = 'none';
               // (document.querySelector(".container-mobile")).style.display = 'block';
-              console.log("mobile")
+              console.log("mobile");
               document.querySelector(".desktop").style.display="none";
               (document.querySelector("#fermermenumobile")).addEventListener('click',function(e){
                   e.preventDefault();
@@ -336,7 +337,8 @@ class Magazine extends Component {
 
 
 
-            } else {
+            }
+            else {
               /* The viewport is greater than 700 pixels wide */
               // (document.querySelector(".container-destop")).style.display = 'none';
               // (document.querySelector(".container-mobile")).style.display = 'block';
@@ -431,14 +433,14 @@ class Magazine extends Component {
     switchV(){
       switch(this.state.zoom){
         case 1:{
-          this.flipPage.height="700";
+          this.flipPage.height="600";
           document.getElementById("zoomPage").classList.remove("zoompage");
         //  document.getElementById("FlipPage").style.height="100% !important";
           this.setState({zoom:2})
           break;
         }
         case 2:{
-          this.flipPage.height="850";
+          this.flipPage.height="650";
           document.getElementById("zoomPage").classList.add("zoompage");
           //document.getElementById("FlipPage").style.height="100% !important";
           this.setState({zoom:1})
@@ -464,34 +466,35 @@ class Magazine extends Component {
             let datas=rep.data;
 
             console.log(datas.message);
-            if (window.matchMedia("(max-width: 700px)").matches) {
+            //if (window.matchMedia("(max-width: 700px)").matches) {
               /* The viewport is less than, or equal to, 700 pixels wide */
               //(document.querySelector(".container-destop")).style.display = 'none';
               // (document.querySelector(".container-mobile")).style.display = 'block';
-              console.log("mobile")
-              let date=null;
-              datas.message.forEach((item, i) => {
-                 item.pages = item.pages_mobile;
-                 date = new Date(item.dateSortie);
-                 item.date = (date.getDay()+'-'+date.getMonth()+'-'+date.getFullYear());
-              });
+            //console.log("mobile")
 
-            } else {
+              // datas.message.forEach((item, i) => {
+              //    item.pages = item.pages_mobile;
+              //    date = new Date(item.dateSortie);
+              //    item.date = (date.getDay()+'-'+date.getMonth()+'-'+date.getFullYear());
+              // });
+
+          //  } else {
               /* The viewport is greater than 700 pixels wide */
               // (document.querySelector(".container-destop")).style.display = 'none';
-              // (document.querySelector(".container-mobile")).style.display = 'block';
-              console.log("Desktop")
+              // (document.querySelector(".container-mobile")).style.display = 'block'
               let date=null;
               datas.message.forEach((item, i) => {
-                  item.pages = item.pages_desktop.split(",");
+                  item.pages = item.pages_desktop;
                  date = new Date(item.dateSortie);
                  item.date = (date.getDay()+'-'+date.getMonth()+'-'+date.getFullYear());
               });
 
 
-            }
 
-            console.log(datas.message);
+
+          //  }
+            console.log("http://flowpaper.com/flipbook/https://flowpaper.com/example.pdf");
+            console.log("http://flowpaper.com/flipbook/"+datas.message[0].pages);
 
 
             this.setState({magazines:datas.message,selectedmagazine:datas.message[0]});
@@ -511,14 +514,14 @@ class Magazine extends Component {
                     <div className="col-1" style={{minHeight:'50%',maxHeight:'50%',marginTop:"0rem"}}>
                       <div className="row">
                         <div className="12">
-                          <img  src={logotrips} alt="image yaris" />
+                          <img  src={logotrips} alt="image yaris" style={{width: "58%",marginLeft: "5%",marginTop: "5%"}}/>
                         </div>
                       </div>
-                      <div className="row" style={{marginTop:"2.5rem"}}>
+                      <div className="row" style={{marginTop:"0.5rem"}}>
                         <div className="12">
                           <div className="row">
                             <div className="col-12">
-                              <i className="fas fa-align-left" style={{padding:'0.5rem',fontSize:'1.5em',marginLeft:"3rem",marginTop:"25%",background: "#FFFFFF 0% 0% no-repeat padding-box",boxShadow: '0px 3px 6px #00000029',borderRadius: '3px 39px 39px 45px'}}></i>
+                              <i className="fas fa-align-left" style={{padding:'0.5rem',fontSize:'1.5em',marginLeft:"3rem",marginTop:"5%",background: "#FFFFFF 0% 0% no-repeat padding-box",boxShadow: '0px 3px 6px #00000029',borderRadius: '3px 39px 39px 45px'}}></i>
                             </div>
                             <div className="col-12">
                               <span className="reduc" style={{position:"absolute",top:'10rem',left:'20%',padding:'1rem',backgroundColor:'#744A61',borderRadius:'50%',opacity:"1",color:'#FFD030',font: 'Bold 32px/48px Arial'}}>
@@ -527,7 +530,7 @@ class Magazine extends Component {
                               <span className="titre" style={{position:"absolute",top:"18rem",font: 'Bold 16px/24px Arial',letterSpacing: '0px',color: '#FFFFFF'}}>
                                 Du nouveau <br /> chez <br />BIRAMAWA
                               </span>
-                              <span className="plus" style={{position:"absolute",top:"25rem",right:'20%',padding:'0.5rem',backgroundColor:'#FFD030',color:'black'}}>
+                              <span className="plus" style={{position:"absolute",top:"25rem",right:'30%',padding:'0.5rem',backgroundColor:'#FFD030',color:'black'}}>
                                 voir plus
                               </span>
                             </div>
@@ -552,46 +555,20 @@ class Magazine extends Component {
                       <div className="row" id="zoomPage" style={{minHeight:'50%',maxHeight:'50%',marginTop:'2rem'}}>
                         <div className="col-12 magazinebook" id='magazinebook'>
                           <div className="row" >
-                            <div className="col-1" >
-                              <button onClick={()=>this.flipPage.gotoPreviousPage()} style={{background:"none",border:"none",marginTop:'20rem'}}>
-                                  <i id="pagePreviousButton0" className="fas fa-angle-left" style={{color: '#744A61',border:'1px solid #744A61', padding:'1rem',borderRadius:"50%"}}></i>
-                              </button>
-                          </div>
-                            <div className="col-10 pageItem" >
+                            <div className="col-12 pageItem" >
                               <div className="row">
-
-
                                 <div className="col-12" style={{padding:'0',margin:'0'}}>
-                                  <FlipPage id="FlipPage" orientation="orientation" width="100%"  height="700" ref={(component) => { this.flipPage = component; }}>
-                                        {this.state.selectedmagazine.pages.map((page, index) => (
-                                              <img key={index} src={page} width="100%" height="100%"/>
-                                        ))}
-
-                                  </FlipPage>
+                                  <iframe frameborder="10"  width="100%" height="700" src={this.state.selectedmagazine.pages} scrolling="no" marginwidth="0" marginheight="0" allowFullScreen></iframe>
                                 </div>
                               </div>
-                            </div>
-                            <div className="col-1" >
-                                <div className="row" >
-                                  <div className="col-12">
-                                    <img onClick={()=>this.switchV()} src={etendre} alt="image yaris" style={{float:'right',marginTop:'1rem'}}/>
-                                  </div>
-                                </div>
-                                <div className="row" >
-                                  <div className="col-12" style={{textAlign:'left'}}>
-                                    <button onClick={() => this.flipPage.gotoNextPage()} style={{background:"none",border:"none" ,marginTop:'16rem'}}>
-                                      <i id="pageNextButton0" className="fas fa-angle-right"  style={{marginLeft:'55%',color: '#744A61',border:'1px solid #744A61', padding:'1rem',borderRadius:"50%"}}></i>
-                                    </button>
-                                </div>
-                                </div>
                             </div>
                           </div>
                         </div>
                       </div>
 
                     </div>
-                    <div className="col-2" style={{minHeight:'50%',maxHeight:'50%',marginTop:"6rem"}}>
-                      <div className="row" style={{background: '#FFFFFF 0% 0% no-repeat padding-box',boxShadow: '1px 3px 6px #00000029',borderRadius: '62px',opacity: '1',marginLeft:'10%',minWidth:'80%',maxWidth:'80%',minHeight:'100%',maxHeight:'100%',backgroundColor:'white'}}>
+                    <div className="col-2" style={{minHeight:'25%',maxHeight:'25%',marginTop:"5%"}}>
+                      <div className="row" style={{background: '#FFFFFF 0% 0% no-repeat padding-box',boxShadow: '1px 3px 6px #00000029',borderRadius: '62px',opacity: '1',marginLeft:'10%',minWidth:'80%',maxWidth:'80%',minHeight:'95%',maxHeight:'95%',backgroundColor:'white'}}>
                         <div className="col-12">
                           <div className="row" style={{marginTop:"1rem"}}>
                             <div className="col-12">
@@ -605,7 +582,7 @@ class Magazine extends Component {
                               <div className="row">
                                 {this.state.magazines.slice(this.state.indexMagBeggin,this.state.indexMagEnd).map((mag, index) => (
                                       <div key={index} className="col-12" style={{maxHeight: '21vh',minHeight: '21vh',textAlign:"center",paddingTop:'2%'}}>
-                                        <img  onClick={()=> this.selectMagazine(mag)} key={index}  src={mag.couverture} alt="image yaris" style={{maxHeight: "8rem",minHeight: "8rem"}}/>
+                                        <img  onClick={()=> this.selectMagazine(mag)} key={index}  src={mag.couverture} alt="image yaris" style={{maxHeight: "6rem",minHeight: "6rem"}}/>
                                         <p style={{color:'#744A61'}}>{mag.date}</p>
                                       </div>
                                 ))}
@@ -613,44 +590,17 @@ class Magazine extends Component {
                             </div>
                           </div>
                           <div className="row">
-                            <div className="col-12">
-                              <button onClick={() => {this.previousMagazine();}} style={{background:"none",border:"none", marginLeft:'40%'}}>
+                            <div className="col-12" style={{marginTop: "-4rem"}}>
+                              <button onClick={() => {this.previousMagazine();}} style={{background:"none",border:"none", marginLeft:'40%',marginTop:"-1rem"}}>
                                   <i id="magazineNextButtonmm" className="fas fa-angle-down" style={{color: '#744A61',border:'1px solid #744A61', padding:'0.5rem',borderRadius:"50%"}}></i>
                               </button>
-                          </div>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div className="row piedpage" >
-                    <div className="col-2" >
 
-                    </div>
-                    <div className="col-7" >
-                      <div className="row" >
-                        <div className="col-1" >
-                          <i onClick={()=>this.prevousPage()} className="fas fa-angle-left" style={{color: '#744A61',border:'1px solid #744A61', padding:'1rem',borderRadius:"50%", marginTop:'35%'}}></i>
-                        </div>
-                        <div className="col-10" style={{boxShadow: '0px 3px 6px #00000029'}}>
-                          <div className="row" >
-                            {this.state.selectedmagazine.pages.slice(this.state.indexPageBeggin,this.state.indexPageEnd).map((page, index) => (
-                                  <div   key={index} className="col-2" key={index}>
-                                    <img  onClick={()=>this.selectMagazineItem(index)} src={page} alt="image yaris" />
-                                  </div>
-                            ))}
-                          </div>
-                        </div>
-                        <div className="col-1" >
-                          <i onClick={()=>this.nextPage()} className="fas fa-angle-right" style={{color: '#744A61',border:'1px solid #744A61', padding:'1rem',borderRadius:"50%", marginTop:'35%'}}></i>
-                        </div>
-                      </div>
-
-                    </div>
-                    <div className="col-1" >
-
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -738,12 +688,9 @@ class Magazine extends Component {
                     </div>
                   </div>
                   <div  className="col-12">
-                    <FlipPageMobile id="FlipPage" orientation="orientation" width="100%"  height="700" ref={(component) => { this.flipPageMobile = component; }}>
-                          {this.state.selectedmagazine.pages.map((page, index) => (
-                                <img key={index} src={page} width="100%" height="100%"/>
-                          ))}
-
-                    </FlipPageMobile>
+                    <div className="col-12" style={{padding:'0',margin:'0'}}>
+                      <iframe frameborder="2"  width="100%" height="700" src={this.state.selectedmagazine.pages} scrolling="no" marginwidth="0" marginheight="0" allowFullScreen></iframe>
+                    </div>
                   </div>
                 </div>
               </div>

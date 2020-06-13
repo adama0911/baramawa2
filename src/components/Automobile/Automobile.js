@@ -280,6 +280,13 @@ class Automobile extends Component {
      }
   }
 
+
+
+  selectMarque(marque){
+    console.log(marque);
+    this.switchV(2);
+    this.getDatasCarsMarque(marque);
+  }
     constructor(props){
       super(props);
       this.state = {indexMarqueEnd:6,indexMarqueBeggin:0,date: new Date(),voitures:this.voitures,selectedVoiture:this.selectedVoiture,selectedImg:this.selectedImg,indexCarBeggin:0,indexCarEnd:6,indexCarMobilBeggin:0,indexCarMobilEnd:2,voirplusend:3,marques:[],menuStatut:"none"};
@@ -332,6 +339,107 @@ class Automobile extends Component {
 
       const form = new FormData()
       form.set('option', 'all')
+
+        axios({
+          url:url,
+          method:'post',
+          headers: { 'Content-Type': 'multipart/form-data' },
+          data:form
+        }).then(rep=>{
+          if(rep.status===200){
+            let datas=rep.data;
+
+            this.voitures = [];
+
+            (datas.message).forEach((item, i) => {
+              let el  = {};
+              let image = {};
+               item.image = item.image.split(",");
+               el.id = item.id;
+               el.Marque = item.marque;
+               el.Model = item.model;
+               el.Annee = item.annee;
+               el.Kilometrage = item.kilometrage;
+               el.carburant = item.carburant;
+               el.boiteVitesse = item.boiteVitesse;
+               el.nom = item.nom;
+               el.description = item.description;
+               el.prix = item.prix;
+               if(item.image.length==1){
+                 image.v1 = item.image[0];
+                 image.v2 = item.image[0];
+                 image.v3 = item.image[0];
+                 image.v4 = item.image[0];
+                 image.v5 = item.image[0];
+                 image.v6 = item.image[0];
+                  el.image = image;
+               }
+               else if(item.image.length==2){
+                 image.v1 = item.image[0];
+                 image.v2 = item.image[1];
+                 image.v3 = item.image[0];
+                 image.v4 = item.image[1];
+                 image.v5 = item.image[0];
+                 image.v6 = item.image[1];
+                  el.image = image;
+               }
+               else if(item.image.length==3){
+                 image.v1 = item.image[0];
+                 image.v2 = item.image[1];
+                 image.v3 = item.image[2];
+                 image.v4 = item.image[0];
+                 image.v5 = item.image[1];
+                 image.v6 = item.image[2];
+                  el.image = image;
+               }
+               else if(item.image.length==4){
+                 image.v1 = item.image[0];
+                 image.v2 = item.image[1];
+                 image.v3 = item.image[2];
+                 image.v4 = item.image[3];
+                 image.v5 = item.image[0];
+                 image.v6 = item.image[1];
+                  el.image = image;
+               }
+
+               else if(item.image.length==5){
+                 image.v1 = item.image[0];
+                 image.v2 = item.image[1];
+                 image.v3 = item.image[2];
+                 image.v4 = item.image[3];
+                 image.v5 = item.image[4];
+                 image.v6 = item.image[0];
+                  el.image = image;
+               }
+               else if(item.image.length>=6){
+                 image.v1 = item.image[0];
+                 image.v2 = item.image[1];
+                 image.v3 = item.image[2];
+                 image.v4 = item.image[3];
+                 image.v5 = item.image[4];
+                 image.v6 = item.image[5];
+                 el.image = image;
+               }
+
+               this.voitures.push(el);
+
+            });
+
+
+            console.log(this.voitures);
+            this.setState({voitures:this.voitures,selectedVoiture:this.voitures[0]});
+          }else
+            console.log(rep);
+        });
+
+    }
+
+    async getDatasCarsMarque(marque){
+
+      let url = this.host + "car/carsMarque";
+
+      const form = new FormData()
+      form.set('marque', marque.nom)
 
         axios({
           url:url,
@@ -655,44 +763,11 @@ class Automobile extends Component {
                               </div>
                               <div class="col-8" style={{border:'1px solid black', marginTop:'2rem'}}>
                                 <div class="row">
-                                    <div class="col-2" style={{margin:'0',padding:'0'}}>
-                                        <img width="100%" src={maq1} alt="image yaris" style={{minWidth:"100%",maxWidth:"100%",border:'1px solid black',margin:'0',padding:'0'}}/>
+                                  {this.state.marques.slice(this.state.indexMarqueBeggin,this.state.indexMarqueEnd).map((marque, index) => (
+                                    <div key={index} class="col-2" style={{margin:'0',padding:'0'}}>
+                                        <img  onClick={()=>this.selectMarque(marque)} width="100%" src={marque.image} alt="image yaris" style={{minWidth:"100%",maxWidth:"100%",border:'1px solid black',margin:'0',padding:'0'}}/>
                                     </div>
-                                    <div class="col-2" style={{margin:'0',padding:'0'}}>
-                                        <img width="100%" src={mrq2} alt="image yaris" style={{minWidth:"100%",maxWidth:"100%",border:'1px solid black',margin:'0',padding:'0'}}/>
-                                    </div>
-                                    <div class="col-2" style={{margin:'0',padding:'0'}}>
-                                       <img width="100%" src={mrq3} alt="image yaris" style={{minWidth:"100%",maxWidth:"100%",border:'1px solid black',margin:'0',padding:'0'}}/>
-                                    </div>
-                                    <div class="col-2" style={{margin:'0',padding:'0'}}>
-                                      <img width="100%" src={mrq4} alt="image yaris" style={{minWidth:"100%",maxWidth:"100%",border:'1px solid black',margin:'0',padding:'0'}}/>
-                                    </div>
-                                    <div class="col-2" style={{margin:'0',padding:'0'}}>
-                                      <img width="100%" src={mrq5} alt="image yaris" style={{minWidth:"100%",maxWidth:"100%",border:'1px solid black'}}/>
-                                    </div>
-                                    <div class="col-2" style={{margin:'0',padding:'0'}}>
-                                      <img width="100%" src={mrq6} alt="image yaris" style={{minWidth:"100%",maxWidth:"100%",border:'1px solid black',margin:'0',padding:'0'}}/>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-2" style={{margin:'0',padding:'0'}}>
-                                        <img width="100%" src={maq1} alt="image yaris" style={{minWidth:"100%",maxWidth:"100%",border:'1px solid black',margin:'0',padding:'0'}}/>
-                                    </div>
-                                    <div class="col-2" style={{margin:'0',padding:'0'}}>
-                                        <img width="100%" src={mrq2} alt="image yaris" style={{minWidth:"100%",maxWidth:"100%",border:'1px solid black',margin:'0',padding:'0'}}/>
-                                    </div>
-                                    <div class="col-2" style={{margin:'0',padding:'0'}}>
-                                       <img width="100%" src={mrq3} alt="image yaris" style={{minWidth:"100%",maxWidth:"100%",border:'1px solid black',margin:'0',padding:'0'}}/>
-                                    </div>
-                                    <div class="col-2" style={{margin:'0',padding:'0'}}>
-                                      <img width="100%" src={mrq4} alt="image yaris" style={{minWidth:"100%",maxWidth:"100%",border:'1px solid black',margin:'0',padding:'0'}}/>
-                                    </div>
-                                    <div class="col-2" style={{margin:'0',padding:'0'}}>
-                                      <img width="100%" src={mrq5} alt="image yaris" style={{minWidth:"100%",maxWidth:"100%",border:'1px solid black',margin:'0',padding:'0'}}/>
-                                    </div>
-                                    <div class="col-2" style={{margin:'0',padding:'0'}}>
-                                      <img width="100%" src={mrq6} alt="image yaris" style={{minWidth:"100%",maxWidth:"100%",border:'1px solid black',margin:'0',padding:'0'}}/>
-                                    </div>
+                                  ))}
                                 </div>
                               </div>
                             </div>

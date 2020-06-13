@@ -252,6 +252,43 @@ class Admin extends Component {
 
       }
 
+  async uploadsImagesMagazineDeskFile(){
+          this.modaleChargemant('block','Operation en cour .......')
+            let input = document.getElementById("MagazineDeskInput");
+            let origine = "http://web-biramawa.com/backend-birawam-slim/uploads/";
+            let imagesMagazineDesk = this.state.imagesMagazineDesk;
+            let src="";
+
+            let url = this.host + "file/onUploadfile";
+
+            const form = new FormData()
+            form.set('uploads', input.files[0])
+
+              axios({
+                url:url,
+                method:'post',
+                headers: { 'Content-Type': 'multipart/form-data' },
+                data:form
+              }).then(rep=>{
+                if(rep.status===200){
+                  let datas=rep.data;
+
+                  console.log(datas)
+                  src = origine+datas.generatedName;
+                  console.log(src);
+                  if(imagesMagazineDesk==""){
+                    imagesMagazineDesk = src;
+                  }else{
+                    imagesMagazineDesk += ","+src;
+                  }
+                  this.modaleChargemant('none','Operation en cour .......')
+                  this.setState({imagesMagazineDesk:imagesMagazineDesk});
+                }else
+                  console.log(rep);
+              });
+
+          }
+
   async uploadsImagesHebergement(myid){
     this.modaleChargemant('block','Operation en cour .......')
     let input = document.getElementById("HebergementInput"+myid);
@@ -516,6 +553,47 @@ class Admin extends Component {
       let couverture = this.state.imageCouverture;
       let imagesMobile = this.state.imagesMagazineMobile;
       let imagesDesk = this.state.imagesMagazineDesk;
+
+
+
+      let url = this.host+ "admin/ajouterMagazine";
+
+      const form = new FormData()
+      form.set('titre', titre);
+      form.set('description', desc);
+      form.set('date', date);
+      form.set('couverture', couverture);
+      form.set('imagesMobile', imagesMobile);
+      form.set('imagesDesk', imagesDesk);
+
+      console.log(form);
+      axios({
+        url:url,
+        method:'post',
+        headers: { 'Content-Type': 'multipart/form-data' },
+        data:form
+      }).then(rep=>{
+        if(rep.status===200){
+          let datas=rep.data;
+
+          console.log(datas)
+          this.modaleChargemant('block','Operation réussi')
+          this.setState({imageCouverture:"",imagesMagazineMobile:"",imagesMagazineDesk:"",nbrImgMagazineDesk:[1],nbrImgMagazineMobile:[1]})
+
+        }else
+          console.log(rep);
+      });
+
+    }
+
+    async ajouterMagazinePdf(){
+      this.modaleChargemant('block','Operation en cour .......')
+      let titre = document.getElementById("titreMagazine").value;
+      let desc = document.getElementById("descMagazine").value;
+      let date = document.getElementById("dateMagazine").value;
+      let couverture = this.state.imageCouverture;
+      let imagesMobile = document.getElementById("MagazineDeskInput").value;
+      let imagesDesk = document.getElementById("MagazineDeskInput").value;
 
 
 
@@ -892,50 +970,22 @@ class Admin extends Component {
                       <div className="form-group">
                         <label for="exampleFormControlInput1">images  Pages Desktop</label>
                           <div className="row" style={{border:'1px solid black'}}>
-                            {this.state.nbrImgMagazineDesk.map((image, index) => (
-                              <div className="col-12" key={index}>
-                                  <p>image {index + 1}</p>
+                              <div className="col-12">
+                                  <p>lien pdf</p>
                                   <div className="row">
                                     <div className="col-4" style={{paddingTop:"5%"}}>
-                                      <input id={"MagazineDeskInput"+image} onChange={() => this.uploadsImagesMagazineDesk(image)} className="imagesVoiture"  type="file" className="form-control"  placeholder="name@example.com"/>
-                                    </div>
-                                    <div className="col-8">
-                                      <img id={"imgMagazineDeskInput"+image} width="100%" src={imageyaris} alt="image yaris" style={{width:"50%"}} />
+                                      <input id="MagazineDeskInput"  className="imagesVoiture"  type="text" className="form-control"  placeholder="name@example.com"/>
                                     </div>
                                    </div>
-                              </div>
-                            ))}
-                              <div className="col-12" style={{marginBottom:'1rem'}}>
-                                  <button  onClick={() => this.nouvelleImageMagazineDesk()} type="button" className="btn btn-secondary">Nouvelle image</button>
                               </div>
                           </div>
                         </div>
 
-                        <div className="form-group">
-                          <label for="exampleFormControlInput1">images  Pages Mobile</label>
-                            <div className="row" style={{border:'1px solid black'}}>
-                              {this.state.nbrImgMagazineMobile.map((image, index) => (
-                                <div className="col-12" key={index}>
-                                    <p>image {index + 1}</p>
-                                    <div className="row">
-                                      <div className="col-4" style={{paddingTop:"5%"}}>
-                                        <input id={"MagazineMobileInput"+image} onChange={() => this.uploadsImagesMagazineMobile(image)} className="imagesVoiture"  type="file" className="form-control"  placeholder="name@example.com"/>
-                                      </div>
-                                      <div className="col-8">
-                                        <img id={"imgMagazineMobileInput"+image} width="100%" src={imageyaris} alt="image yaris" style={{width:"50%"}} />
-                                      </div>
-                                     </div>
-                                </div>
-                              ))}
-                                <div className="col-12" style={{marginBottom:'1rem'}}>
-                                    <button  onClick={() => this.nouvelleImageMagazineMobile()} type="button" className="btn btn-secondary">Nouvelle image</button>
-                                </div>
-                            </div>
-                          </div>
+
                     </form>
 
                     <div className="col-12" style={{}}>
-                        <button  onClick={() => this.ajouterMagazine()} type="button" className="btn btn-secondary">Ajouter</button>
+                        <button  onClick={() => this.ajouterMagazinePdf()} type="button" className="btn btn-secondary">Ajouter</button>
                     </div>
                   </div>
                 </div>

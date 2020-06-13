@@ -11,6 +11,7 @@ import sn from '../../static/images/sn.png';
 import './Trip.scss';
 import lac from '../../static/images/686_ragdefault.png';
 import image4 from '../../static/images/images.png';
+import bgtripdesk from '../../static/images/bgtripdesk.png';
 import image3 from '../../static/images/image3.png';
 import image2 from '../../static/images/images2.png';
 import logotrips from '../../static/images/logotrips.png';
@@ -645,9 +646,9 @@ class Trip extends Component {
         this.getDatasHebergement();
         this.getDatasCars();
         this.getDatasPartenaires();
-        this.showmenu();
         $("document").ready(()=>{
           this.switchV(1);
+          this.showmenu();
           //this.sitesShowNext();
           this.switchP(1);
            (document.getElementById('sitesNextButton')).addEventListener('click',(e)=>{
@@ -1100,14 +1101,14 @@ class Trip extends Component {
         return (
         <div className="container" id="container">
           <div className="row" >
-            <div className="col-12 desktop">
+            <div className="col-12 desktop" style={{backgroundImage:"url("+bgtripdesk+")",backgroundRepeat: "no-repeat",backgroundSize: "100% 100vh"}}>
               <div id="m" style={{display:"none"}}>
                   <div >
                     <img src={logo1} alt="logo" />
                   </div>
                   <ul id="ul" >
                     <li className="li"><span><img style={{marginRight:"0.4em"}} src={home} alt="home" />BIRAWAMA</span></li>
-                    <li ><Link to="/car">BIRAWAMA CAR</Link></li>
+                    <li ><Link to="/car" >BIRAWAMA CAR</Link></li>
                     <li ><Link to="/trip">BIRAWAMA TRIP</Link><img src={sn} alt="facebook" style={{width:"3rem"}} /></li>
                     <li ><Link to="/magazine">BIRAWAMA MAGAZINE</Link></li>
 
@@ -1121,10 +1122,10 @@ class Trip extends Component {
                     </div>
                     <div className="col-8" style={{paddingTop:'1%',paddingRight:'8%', textAlign:'right'}}>
                       <ul id="menuc" style={{marginRight:"5%"}}>
-                        <li ><a href="#sect1" id="li1" onClick={()=>{this.switchV(1);return false;}} style={{ color:"#744A61"}}>BIRAMAWA TRIP</a></li>
-                        <li ><a href="#sect2" id="li2" onClick={()=>{this.switchV(2);return false;}} style={{color:"#744A61"}}>SITES D'EXCEPTION</a></li>
-                        <li ><a href="#sect3" id="li3" onClick={()=>{this.switchV(3);return false;}} style={{color:"#744A61"}}>HEBERGEMENT</a></li>
-                        <li ><a href="#sect4" id="li4" onClick={()=>{this.switchV(4);return false;}} style={{color:"#744A61"}}>NOS PARTENAIRES</a></li>
+                        <li ><a href="#sect1" id="li1" onClick={()=>{this.switchV(1);return false;}} style={{ color:"#FFFFFF"}}>BIRAMAWA TRIP</a></li>
+                        <li ><a href="#sect2" id="li2" onClick={()=>{this.switchV(2);return false;}} style={{color:"#FFFFFF"}}>SITES D'EXCEPTION</a></li>
+                        <li ><a href="#sect3" id="li3" onClick={()=>{this.switchV(3);return false;}} style={{color:"#FFFFFF"}}>HEBERGEMENT</a></li>
+                        <li ><a href="#sect4" id="li4" onClick={()=>{this.switchV(4);return false;}} style={{color:"#FFFFFF"}}>NOS PARTENAIRES</a></li>
                       </ul>
                     </div>
                 </div>
@@ -1141,20 +1142,20 @@ class Trip extends Component {
                       <div className="row titre" >
                         <div className="col-12">
                           <h1>
-                              <span>Venez  Visiter  le  Sénégal</span>
+                              <span style={{color:"white"}}>Venez  Visiter  le  Sénégal</span>
                           </h1>
                         </div>
                       </div>
                       <div className="row">
                         <div className="col-4">
                         </div>
-                        <div className="col-4" style={{backgroundColor:'#744A61',color:'white',maxHeight:'0.3rem', fontSize:'0.1em'}}>
+                        <div className="col-4" style={{backgroundColor:'white',color:'white',maxHeight:'0.3rem', fontSize:'0.1em'}}>
                               <span>Venez</span>
                         </div>
                       </div>
                       <div className="row" style={{marginTop:'2%',textAlign:'center', color:'#744A61'}}>
                         <div className="col-12">
-                          <h4>
+                          <h4 style={{color:"white"}}>
                               Chercher un site
                           </h4>
                         </div>
@@ -1163,9 +1164,9 @@ class Trip extends Component {
                         <div className="col-4">
                         </div>
                         <div className="col-4" style={{paddingLeft:'2%',textAlign:'center'}}>
-                          <form style={{width:"90%",border: '1px solid #744A61',borderRadius: '17px'}} className="from-inline">
-                            <input type="search" style={{width:"73%",borderLeft: '1px solid #744A61',borderTop: '1px solid #744A61',borderBottom: '1px solid #744A61',borderRadius: '17px 0px 0px 17px',opacity: "0"}}/>
-                            <input style={{maxWidth:'27%',minWidth:'27%',border: '1px solid #744A61',borderRadius: '17px 17px 17px 17px',marginLeft:"0px",borderLeft: '0px solid #744A61',opacity: "1",font: "Regular 18px/21px Arial",letterSpacing:"0px",background: '#744A61 0% 0% no-repeat padding-box'}} type="button" value="OK" />
+                          <form style={{width:"90%",border: '1px solid #FFFFFF',borderRadius: '17px'}} className="from-inline">
+                            <input type="search" style={{width:"73%",borderLeft: '1px solid #FFFFFF',borderTop: '1px solid #FFFFFF',borderBottom: '1px solid #744A61',borderRadius: '17px 0px 0px 17px',opacity: "0"}}/>
+                            <input style={{maxWidth:'27%',minWidth:'27%',border: '1px solid #FFFFFF',borderRadius: '17px 17px 17px 17px',marginLeft:"0px",borderLeft: '0px solid #744A61',opacity: "1",font: "Regular 18px/21px Arial",letterSpacing:"0px",background: '#FFFFFF 0% 0% no-repeat padding-box'}} type="button" value="OK" />
                           </form>
                         </div>
                       </div>
@@ -1195,15 +1196,15 @@ class Trip extends Component {
                       </div>
                       <div className="row " style={{position:"fixed",bottom:'0rem',left:'47%'}}>
                         <div className="col-12 align-middle">
-                            <div style={{height:"0.2em",width:"3.7rem",backgroundColor:"#744A61",marginBottom:"0.2em"}}></div>
-                            <div style={{height:"0.2em",width:"3.7em",backgroundColor:"#744A61",marginBottom:"0.2em"}}></div>
-                            <div style={{height:"0.1em",width:"3.7rem",backgroundColor:"#744A61",marginBottom:"0.2em"}}></div>
-                            <div id="triangle2" style={{borderTop: '20px solid #744A61'}}></div>
+                            <div style={{height:"0.2em",width:"3.7rem",backgroundColor:"#FFFFFF",marginBottom:"0.2em"}}></div>
+                            <div style={{height:"0.2em",width:"3.7em",backgroundColor:"#FFFFFF",marginBottom:"0.2em"}}></div>
+                            <div style={{height:"0.1em",width:"3.7rem",backgroundColor:"#FFFFFF",marginBottom:"0.2em"}}></div>
+                            <div id="triangle2" style={{borderTop: '20px solid #FFFFFF'}}></div>
                         </div>
                       </div>
                     </div>
                 </div>
-                <div className="row" id="sect2" style={{marginTop:'20rem'}}>
+                <div className="row" id="sect2" style={{marginTop:'25rem'}}>
                   <div className="col-12" >
                     <div className="row titre1" >
                       <div className="col-12">
